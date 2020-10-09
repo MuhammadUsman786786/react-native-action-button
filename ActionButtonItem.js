@@ -17,15 +17,12 @@ import {
   touchableBackground,
   DEFAULT_ACTIVE_OPACITY
 } from "./shared";
-
 const { width: WIDTH } = Dimensions.get("window");
 const SHADOW_SPACE = 10;
 const TEXT_HEIGHT = 22;
-
 const TextTouchable = isAndroid
   ? TouchableNativeFeedback
   : TouchableWithoutFeedback;
-
 export default class ActionButtonItem extends Component {
   static get defaultProps() {
     return {
@@ -34,22 +31,18 @@ export default class ActionButtonItem extends Component {
       useNativeFeedback: true,
       activeOpacity: DEFAULT_ACTIVE_OPACITY,
       fixNativeFeedbackRadius: false,
-      nativeFeedbackRippleColor: "rgba(255,255,255,0.75)",
-      numberOfLines: 1,
+      nativeFeedbackRippleColor: "rgba(255,255,255,0.75)"
     };
   }
-
   static get propTypes() {
     return {
       active: PropTypes.bool,
       useNativeFeedback: PropTypes.bool,
       fixNativeFeedbackRadius: PropTypes.bool,
       nativeFeedbackRippleColor: PropTypes.string,
-      activeOpacity: PropTypes.number,
-      numberOfLines: PropTypes.number,
+      activeOpacity: PropTypes.number
     };
   }
-
   render() {
     const {
       size,
@@ -58,13 +51,10 @@ export default class ActionButtonItem extends Component {
       hideShadow,
       spacing
     } = this.props;
-
     if (!this.props.active) return null;
-
     const animatedViewStyle = {
       marginBottom: -SHADOW_SPACE,
       alignItems: alignItemsMap[position],
-
       // backgroundColor: this.props.buttonColor,
       opacity: this.props.anim,
       transform: [
@@ -76,21 +66,17 @@ export default class ActionButtonItem extends Component {
         }
       ]
     };
-
     const buttonStyle = {
       justifyContent: "center",
       alignItems: "center",
-      width: size,
-      height: size,
+      // width: size,
+      // height: size,
       borderRadius: size / 2,
-      backgroundColor: this.props.buttonColor || this.props.btnColor
+      // backgroundColor: this.props.buttonColor || this.props.btnColor
     };
-
-    if (position !== "center")
-      buttonStyle[position] = (this.props.parentSize - size) / 2;
-
+    // if (position !== "center")
+    //   buttonStyle[position] = (this.props.parentSize - size) / 2;
     const Touchable = getTouchableComponent(this.props.useNativeFeedback);
-
     const parentStyle = isAndroid &&
       this.props.fixNativeFeedbackRadius
       ? {
@@ -110,7 +96,6 @@ export default class ActionButtonItem extends Component {
       >
         <View>
           <Touchable
-            rejectResponderTermination
             testID={this.props.testID}
             accessibilityLabel={this.props.accessibilityLabel}
             background={touchableBackground(
@@ -132,10 +117,8 @@ export default class ActionButtonItem extends Component {
       </Animated.View>
     );
   }
-
   _renderTitle() {
     if (!this.props.title) return null;
-
     const {
       textContainerStyle,
       hideLabelShadow,
@@ -143,29 +126,25 @@ export default class ActionButtonItem extends Component {
       parentSize,
       size,
       position,
-      spaceBetween,
-      numberOfLines,
+      spaceBetween
     } = this.props;
     const offsetTop = Math.max(size / 2 - TEXT_HEIGHT / 2, 0);
     const positionStyles = { top: offsetTop };
     const hideShadow = hideLabelShadow === undefined
       ? this.props.hideShadow
       : hideLabelShadow;
-
     if (position !== "center") {
       positionStyles[position] =
         offsetX + (parentSize - size) / 2 + size + spaceBetween;
     } else {
       positionStyles.right = WIDTH / 2 + size / 2 + spaceBetween;
     }
-
     const textStyles = [
       styles.textContainer,
       positionStyles,
       !hideShadow && shadowStyle,
       textContainerStyle
     ];
-
     const title = (
       React.isValidElement(this.props.title) ?
         this.props.title
@@ -173,16 +152,13 @@ export default class ActionButtonItem extends Component {
         <Text
           allowFontScaling={false}
           style={[styles.text, this.props.textStyle]}
-          numberOfLines={numberOfLines}
         >
           {this.props.title}
         </Text>
       )
     )
-
     return (
       <TextTouchable
-        rejectResponderTermination
         background={touchableBackground(
           this.props.nativeFeedbackRippleColor,
           this.props.fixNativeFeedbackRadius
@@ -197,7 +173,6 @@ export default class ActionButtonItem extends Component {
     );
   }
 }
-
 const styles = StyleSheet.create({
   textContainer: {
     position: "absolute",
